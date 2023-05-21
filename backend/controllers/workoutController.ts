@@ -1,16 +1,17 @@
-const Workout = require('../model/workoutModel')
-const mongoose = require('mongoose')
+import { Request, Response } from 'express';
+import Workout from "../model/workoutModel"
+import mongoose from "mongoose"
 
-const getWorkouts = async (req, res) => {
+export const getWorkouts = async (req: Request, res: Response) => {
   try {
     const workout = await Workout.find({}).sort({createdAt: -1})
     res.status(200).json(workout)
-  } catch(error) {
+  } catch(error: any) {
     res.status(400).json({error: error.message})
   }
 }
 
-const getWorkout = async (req, res) => {
+export const getWorkout = async (req: Request, res: Response) => {
   const {id} = req.params
 
   try {
@@ -25,23 +26,23 @@ const getWorkout = async (req, res) => {
     }
 
     res.status(200).json(workout)
-  } catch(error) {
+  } catch(error: any) {
     res.status(400).json({error: error.message})
   }
 }
 
-const createWorkout = async (req, res) => {
+export const createWorkout = async (req: Request, res: Response) => {
   const {title, load, reps} = req.body
 
   try {
     const workout = await Workout.create({title, load, reps})
     res.status(200).json(workout)
-  } catch(error) {
+  } catch(error: any) {
     res.status(400).json({error : error.message})
   }
 }
 
-const deleteWorkout = async (req, res) => {
+export const deleteWorkout = async (req: Request, res: Response) => {
   const {id} = req.params
 
   try {
@@ -56,12 +57,12 @@ const deleteWorkout = async (req, res) => {
     }
 
     res.status(200).json(workout)
-  } catch(error) {
+  } catch(error: any) {
     res.status(400).json({error: error.message})
   }
 }
 
-const updateWorkout = async (req, res) => {
+export const updateWorkout = async (req: Request, res: Response) => {
   const {id} = req.params
 
   try {
@@ -78,15 +79,7 @@ const updateWorkout = async (req, res) => {
     }
 
     res.status(200).json(workout)
-  } catch(error) {
+  } catch(error: any) {
     res.status(400).json({error: error.message})
   }
-}
-
-module.exports = {
-  getWorkouts,
-  getWorkout,
-  createWorkout,
-  deleteWorkout,
-  updateWorkout
 }
