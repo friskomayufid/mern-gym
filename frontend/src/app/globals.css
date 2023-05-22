@@ -61,10 +61,8 @@ header a {
   top: 20px;
   right: 20px;
   cursor: pointer;
-  background: #f1f1f1;
-  padding: 6px;
   border-radius: 50%;
-  color: #333;
+  color: var(--error);
 }
 
 /* new workout form */
@@ -100,4 +98,13 @@ div.error {
 }
 input.error {
   border: 1px solid var(--error);
+}
+
+p.error {
+  color: var(--error);
+}
+
+p.error::before {
+  display: inline;
+  content: '⚠ ';
 }

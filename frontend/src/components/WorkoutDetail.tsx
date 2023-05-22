@@ -1,5 +1,7 @@
-import React, { useState } from 'react'
-import { usePosts } from '../hooks/useWorkouts'
+import { useQueryClient } from '@tanstack/react-query'
+import { useDeleteWorkout } from '../hooks/useWorkouts'
+import formatDistanceToNow from 'date-fns/formatDistanceToNow'
+import { BsTrash } from 'react-icons/bs'
 
 type WorkoutDetailProps = {
   workout: Workout
@@ -7,6 +9,13 @@ type WorkoutDetailProps = {
 }
 
 export const WorkoutDetail = ({ workout, isLoading }: WorkoutDetailProps) => {
+  const queryClient = useQueryClient()
+  const mutationDelete = useDeleteWorkout(queryClient)
+
+  const handleDelete = (id: string) => {
+    mutationDelete.mutate(id)
+  }
+
   if (isLoading) return <div>Loading..</div>
 
   return (
@@ -20,7 +29,12 @@ export const WorkoutDetail = ({ workout, isLoading }: WorkoutDetailProps) => {
         <b>Reps (kg): </b>
         {workout.reps}
       </p>
-      <p>{workout.createdAt}</p>
+      <p>
+        {formatDistanceToNow(new Date(workout.createdAt), { addSuffix: true })}
+      </p>
+      <span onClick={() => handleDelete(workout._id)}>
+        <BsTrash />
+      </span>
     </div>
   )
 }
